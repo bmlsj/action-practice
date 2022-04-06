@@ -22,5 +22,8 @@ jobs:
         
       run: echo "Commit id => $COMMIT_ID"
       
+    - name : rev-parse
+      run : git rev-parse main
+      
       
  
