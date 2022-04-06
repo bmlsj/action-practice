@@ -29,4 +29,10 @@ jobs:
             echo "${{ env.VERSION_BRANCH }}"
             echo "${{ env.VERSION_HASH_DATE }}"
         
+      - name: Show variables
+        run: |
+          echo "${{ env.VERSION_HASH_DATE }} < VERSION_HASH_DATE"
+          echo "${{ env.VERSION_HASH_ONLY }} < VERSION_HASH_ONLY"
+          echo "${{ env.VERSION_CI }} < VERSION_CI"
+          echo "${{ env.VERSION_BRANCH }} < VERSION_BRANCH"
 
