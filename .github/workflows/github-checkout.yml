@@ -1,0 +1,25 @@
+# This is a basic workflow to help you get started with Actions
+
+name: github checkout
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3   # 다른 사람이 만든 action 사용
+      - name: Run pwd
+        run: pwd
+
+      - name: Run ls -al
+        run: ls -al
+
