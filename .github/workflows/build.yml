@@ -24,5 +24,9 @@ jobs:
       - name: env build_version
         env:
           BUILD_VER : ${{github.run_number}}
-        run: echo "build version is $BUILD_VER"
+        run: |
+            echo "build version is $BUILD_VER"
+            echo "${{ env.VERSION_BRANCH }}"
+            echo "${{ env.VERSION_HASH_DATE }}"
+        
 
