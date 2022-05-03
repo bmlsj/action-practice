@@ -1,0 +1,74 @@
+
+name: Compare
+
+on:
+
+  schedule:
+    - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
+
+
+  # push:
+  #   branches: [ main ]
+  #   paths:
+  #     - "파일 경로"
+    
+  workflow_dispatch:
+      
+
+jobs:
+  build:
+    name : Compare
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+
+    - name : "context"
+      env: 
+        COMMIT_ID : ${{ github.sha }} # 제일 최근 commit id
+        
+      # run: echo "Commit id => $COMMIT_ID"
+
+    - name : remote
+      run : |
+            git remote add upstream https://github.com/Azure/azure-sdk-korean.git
+            git remote -v
+
+
+    # my github hashkey
+    - name : my_id
+      run : |
+            git rev-parse main | read main_id
+            echo "Commit id => $COMMIT_ID"
+
+    # upstream hashkey
+    - name : upstream_id
+      run : git rev-parse upstream/main | read upstream_id
+
+
+    # version check
+    - name : check version
+      shell : bash
+      run : |
+          if [ $main_id = $upstream_id ]; then
+            echo "state = true" >> $GITHUB_ENV
+            echo "alread up-to-date"
+
+          else 
+            echo "state = false" >> $GITHUB_ENV
+            echo "need to update"
+          fi
+
+
+    # diff
+    - name : git diff
+      if : ${{env.state == 'false'}}
+      run : |
+            git diff main_id upstream_id
+            python3 hello.py
