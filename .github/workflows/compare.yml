@@ -3,15 +3,14 @@ name: Compare
 
 on:
 
-  schedule:
-    - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
-
-
-  # push:
-  #   branches: [ main ]
+ # schedule:
+ #   - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
   #   paths:
   #     - "파일 경로"
-    
+
+  push:
+    branches: [ main ]
+      
   workflow_dispatch:
       
 
