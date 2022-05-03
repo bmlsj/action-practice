@@ -20,19 +20,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+    
     - uses: actions/checkout@v2
+
+      # set up python
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
 
-
+      # latest commit id
     - name : "context"
       env: 
-        COMMIT_ID : ${{ github.sha }} # 제일 최근 commit id
-        
-      # run: echo "Commit id => $COMMIT_ID"
+        COMMIT_ID : ${{ github.sha }} # 제일 최근 commit id    
+      run: echo "Commit id => $COMMIT_ID"
 
     - name : remote
       run : |
