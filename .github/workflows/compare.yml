@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
+
     - uses: actions/checkout@v2
 
       # set up python
@@ -40,16 +40,20 @@ jobs:
             git remote add upstream https://github.com/Azure/azure-sdk-korean.git
             git remote -v
 
+    # - name : fetch
+    #   run : git fetch upstream
 
     # my github hashkey
     - name : my_id
       run : |
             git rev-parse main | read main_id
-            echo "Commit id => $COMMIT_ID"
+            echo "Commit id => $main_id"
 
     # upstream hashkey
     - name : upstream_id
-      run : git rev-parse upstream/main | read upstream_id
+      run : |
+            git rev-parse upstream/main | read upstream_id
+            echo "Commit id => $upstream_id"
 
 
     # version check
