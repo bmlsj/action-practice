@@ -45,7 +45,7 @@ jobs:
     - name : my_id
       run : |
             git rev-parse main | read main_id
-            echo "Commit id => main_id"
+            echo "Commit id => $main_id"
 
             
     - name : fetch
@@ -76,5 +76,5 @@ jobs:
     - name : git diff
       # if : ${{env.state == 'false'}}
       run : |
-            git diff --stat main_id upstream_id
+            git diff --stat $main_id $upstream_id
             python3 hello.py
