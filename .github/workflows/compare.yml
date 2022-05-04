@@ -50,7 +50,7 @@ jobs:
 
     # - name : "upstream commit id"
     #   env: 
-    #     UPSTREAM_COMMIT_ID : $(git rev-parse upstream/main)        
+    #     UPSTREdAM_COMMIT_ID : $(git rev-parse upstream/main)        
     #   run: echo "Commit id => $UPSTREAM_COMMIT_ID"
 
     - name: Fetch upstream changes
@@ -59,7 +59,6 @@ jobs:
       with:
         upstream_repository: Azure/azure-sdk-korean
         upstream_branch: main
-        target_branch: upstream/main
 
 
     - name: Notify if new commits
