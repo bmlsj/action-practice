@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
     - uses: actions/checkout@v2
+      
 
       # set up python
     - name: Set up Python ${{ matrix.python-version }}
@@ -29,23 +29,30 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    # 현재 commit id
+    - name : "my commit id"
+      env: 
+        COMMIT_ID : ${{ github.sha }}        
+      run: echo "Commit id => $COMMIT_ID"
+      
+  
+    - name : remote
+      run : |
+            git remote add upstream https://github.com/Azure/azure-sdk-korean.git
+            git remote -v
 
-    # - name : remote
-    #   run : |
-    #         git remote add upstream https://github.com/Azure/azure-sdk-korean.git
-    #         git remote -v
+    - name : fetch
+      run : git fetch upstream
 
+      # log 확인
+    - name : git log
+      run : git log
 
-    - name: Dump GitHub context
-      env:
-         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+    - name : "upstream commit id"
+      env: 
+        UPSTREAM_COMMIT_ID : ${{ github.sha }}        
+      run: echo "Commit id => $UPSTREAM_COMMIT_ID"
 
-
-    # diff
-    # - name : git diff
-    #   with : 
-    #     fetch-depth: 0 # fetch all history
-    #   run : |
-    #         git diff ${{ github.event.before }}..${{ github.event.after }}
-    #         python3 hello.py
+      # git diff    
+    - name : git diff
+      run: git diff ${{COMMIT_ID}}..${{UPSTREAM_COMMIT_ID}}
