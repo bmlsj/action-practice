@@ -55,4 +55,4 @@ jobs:
 
       # git diff    
     - name : git diff
-      run: git diff ${{COMMIT_ID}}..${{UPSTREAM_COMMIT_ID}}
+      run: git diff $COMMIT_ID $UPSTREAM_COMMIT_ID
