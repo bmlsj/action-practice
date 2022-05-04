@@ -37,8 +37,12 @@ jobs:
     - name : output tenants
       run : echo ${{ steps.list.outputs.file_name}}
 
-    - name : push file
-      run : |
+  # github에 push
+  github_upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name : push file
+        run : |
             git config --global user.email "gaga2353@gmail.com"
             git config --global user.name "bmlsj"
             git add file_list.txt
