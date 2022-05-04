@@ -29,29 +29,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-      
-  
-    # - name : remote
-    #   run : |
-    #         git remote add upstream https://github.com/Azure/azure-sdk-korean.git
-    #         git remote -v
-
-    # - name : fetch
-    #   run : git fetch upstream
-
-    # - name : checkout
-    #   run : git checkout upstream/main
 
 
       # log 확인
     - name : git log
       run : git log
 
-
-    # - name : "upstream commit id"
-    #   env: 
-    #     UPSTREAM_COMMIT_ID : $(git rev-parse upstream/main)        
-    #   run: echo "Commit id => $UPSTREAM_COMMIT_ID"
 
     - name: Fetch upstream changes
       id: sync
@@ -62,14 +45,17 @@ jobs:
         target_branch: .
 
 
-    - name: Notify if new commits
+    - name: have new commits
       if: ${{ steps.sync.outputs.has_new_commits == 'true' }}
       uses: ivanmilov/telegram_notify_action@v1
       with:
         api_key: ${{secrets.TELEGRAM_API_KEY}}
         chat_id: ${{secrets.TELEGRAM_CHAT_ID}}
         message: "New commit in upstream repo ${{github.repository}}"
-
+      
+    - name : no new commits
+      if: ${{ steps.sync.outputs.has_new_commits != 'true' }}
+      run: echo "do not have new commits"
 
       # git diff    
     - name : git diff
