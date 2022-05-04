@@ -57,9 +57,9 @@ jobs:
       id: sync
       uses: ivanmilov/upstream_check_new_commits@v1
       with:
-        upstream_repository: 13/go-i3
-        upstream_branch: master
-        target_branch: master_upstream
+        upstream_repository: Azure/azure-sdk-korean
+        upstream_branch: main
+        target_branch: main_upstream
 
 
     - name: Notify if new commits
