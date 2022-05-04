@@ -7,7 +7,8 @@ on:
 #     - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
 
   push:
-    branches: [ main ]
+  repository_dispatch:
+    types: [check_upstream]
   #   paths:
   #     - "파일 경로"
 
@@ -16,7 +17,7 @@ on:
 
 jobs:
   build:
-    name : Compare
+    name : check upstream
     runs-on: ubuntu-latest
 
     steps:
@@ -29,10 +30,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
       
-    - name : "local commit id"
-      env: 
-        LOCAL_COMMIT_ID : $(git rev-parse main)        
-      run: echo "Commit id => $LOCAL_COMMIT_ID"
   
     - name : remote
       run : |
@@ -51,11 +48,27 @@ jobs:
       run : git log
 
 
-    - name : "upstream commit id"
-      env: 
-        UPSTREAM_COMMIT_ID : $(git rev-parse upstream/main)        
-      run: echo "Commit id => $UPSTREAM_COMMIT_ID"
+    # - name : "upstream commit id"
+    #   env: 
+    #     UPSTREAM_COMMIT_ID : $(git rev-parse upstream/main)        
+    #   run: echo "Commit id => $UPSTREAM_COMMIT_ID"
 
+    - name: Fetch upstream changes
+      id: sync
+      uses: ivanmilov/upstream_check_new_commits@v1
+      with:
+        upstream_repository: Azure/azure-sdk-korean
+        upstream_branch: main
+        target_branch: main_upstream
+
+
+    - name: Notify if new commits
+      if: ${{ steps.sync.outputs.has_new_commits == 'true' }}
+      uses: ivanmilov/telegram_notify_action@v1
+      with:
+        api_key: ${{secrets.TELEGRAM_API_KEY}}
+        chat_id: ${{secrets.TELEGRAM_CHAT_ID}}
+        message: "New commit in upstream repo ${{github.repository}}"
 
 
       # git diff    
