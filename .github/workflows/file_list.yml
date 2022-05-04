@@ -2,6 +2,8 @@ name: Multi Tenant GAE Deploy
 # 파일 이름 긁어오기
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -39,13 +41,14 @@ jobs:
   # github에 push
   github_upload:
     runs-on: ubuntu-latest
+    needs : list
     steps:
-      - uses: actions/checkout@v2
-        # file 이름 출력
+      
+      # file 이름 출력
       - name : output tenants
         run : echo ${{ steps.list.outputs.file_name}}
 
-        # push
+      # push
       - name : push file
         run : |
             git config --global user.email "gaga2353@gmail.com"
