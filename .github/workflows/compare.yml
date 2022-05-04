@@ -28,13 +28,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-    # 현재 commit id
-    - name : "my commit id"
-      env: 
-        COMMIT_ID : ${{ github.sha }}        
-      run: echo "Commit id => $COMMIT_ID"
       
+    - name : "local commit id"
+      env: 
+        LOCAL_COMMIT_ID : $(git rev-parse main)        
+      run: echo "Commit id => $LOCAL_COMMIT_ID"
   
     - name : remote
       run : |
@@ -52,10 +50,13 @@ jobs:
     - name : git log
       run : git log
 
+
     - name : "upstream commit id"
       env: 
-        UPSTREAM_COMMIT_ID : ${{ github.sha }}        
+        UPSTREAM_COMMIT_ID : $(git rev-parse upstream/main)        
       run: echo "Commit id => $UPSTREAM_COMMIT_ID"
+
+
 
       # git diff    
     - name : git diff
