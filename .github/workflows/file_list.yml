@@ -16,7 +16,7 @@ jobs:
       uses: the-coding-turtle/ga-file-list@v0.1
       with:
         directory: "."
-        # file_extension: "txt"
+        # file_extension: "txt"     # 확장자
 
   multi_tenant:
     needs: lookup
@@ -26,12 +26,19 @@ jobs:
         tenant: ${{fromJson(needs.lookup.outputs.matrix)}}
     steps:
     - uses: actions/checkout@v2
-    - name: Show all tenants
+    - name: Show all tenants    # 파일 이름 받아오기
       id : list
       run: |
         touch file_list.txt
         echo "${{ matrix.TENANT }}" > file_list.txt
         echo ::set-output name=file_name::$(cat file_list.txt)
 
+    # file 이름 출력
     - name : output tenants
       run : echo ${{ steps.list.outputs.file_name}}
+
+    - name : push file
+      run : |
+            git add file_list.txt
+            git commit -m "file 이름"
+            git push
