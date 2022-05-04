@@ -16,7 +16,7 @@ jobs:
       uses: the-coding-turtle/ga-file-list@v0.1
       with:
         directory: "."
-        file_extension: "txt"
+        # file_extension: "txt"
 
   multi_tenant:
     needs: lookup
