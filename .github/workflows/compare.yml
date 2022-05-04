@@ -59,7 +59,7 @@ jobs:
       with:
         upstream_repository: Azure/azure-sdk-korean
         upstream_branch: main
-        target_branch: main_upstream
+        target_branch: upstream/main
 
 
     - name: Notify if new commits
