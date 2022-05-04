@@ -43,7 +43,7 @@ jobs:
   # github에 push
   github_upload:
     runs-on: ubuntu-latest
-    needs : list
+    needs : multi_tenant
     steps:
       
       # file 이름 출력
