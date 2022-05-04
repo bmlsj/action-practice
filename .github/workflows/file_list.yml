@@ -28,5 +28,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Show all tenants
       run: |
-        echo "this is tenant: ${{ matrix.TENANT }}" > .env
+        touch file_list.txt
+        echo "this is tenant: ${{ matrix.TENANT }}" >> .file_list.txt
+        cat 
 
