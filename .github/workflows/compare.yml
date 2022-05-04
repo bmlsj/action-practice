@@ -76,5 +76,5 @@ jobs:
     - name : git diff
       # if : ${{env.state == 'false'}}
       run : |
-            git diff main_id upstream_id
+            git diff --stat main_id upstream_id
             python3 hello.py
