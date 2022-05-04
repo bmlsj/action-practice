@@ -1,3 +1,4 @@
+## https://github.com/ivanmilov/upstream_check_new_commits
 
 name: Compare
 
@@ -6,9 +7,9 @@ on:
 #   schedule:
 #     - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
 
-  push:
-  repository_dispatch:
-    types: [check_upstream]
+#  push:
+#  repository_dispatch:
+#    types: [check_upstream]
   #   paths:
   #     - "파일 경로"
 
@@ -44,11 +45,12 @@ jobs:
         upstream_branch: main
         target_branch: .
 
+
     - name : no new commits
       if: ${{ steps.sync.outputs.has_new_commits != 'true' }}
       run: echo "do not have new commits"
 
-      
+
     - name: have new commits
       if: ${{ steps.sync.outputs.has_new_commits == 'true' }}
       uses: ivanmilov/telegram_notify_action@v1
