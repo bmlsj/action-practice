@@ -39,6 +39,8 @@ jobs:
 
     - name : push file
       run : |
+            git config --global user.email "gaga2353@gmail.com"
+            git config --global user.name "bmlsj"
             git add file_list.txt
             git commit -m "file 이름"
             git push
