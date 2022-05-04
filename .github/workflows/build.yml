@@ -4,16 +4,17 @@ name: build version check
 
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
 
   workflow_dispatch:
 
 
 jobs:
   build:
+    name: version check
     runs-on: ubuntu-latest
 
    

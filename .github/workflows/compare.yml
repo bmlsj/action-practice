@@ -3,11 +3,11 @@ name: Compare
 
 on:
 
- # schedule:
- #   - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
+  schedule:
+    - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
 
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
   #   paths:
   #     - "파일 경로"
 
@@ -29,52 +29,23 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-      # latest commit id
-    - name : "context"
-      env: 
-        COMMIT_ID : ${{ github.sha }}     # 제일 최근 commit id    
-      run: echo "Commit id => $COMMIT_ID"
 
-    - name : remote
-      run : |
-            git remote add upstream https://github.com/Azure/azure-sdk-korean.git
-            git remote -v
-
-
-    # my github hashkey
-    - name : my_id
-      run : |
-            git rev-parse main | read main_id
-            echo "Commit id => $main_id"
-
-            
-    - name : fetch
-      run : git fetch upstream
-
-    # upstream hashkey
-    - name : upstream_id
-      run : |
-            git rev-parse upstream/main | read upstream_id
-            echo "Commit id => $upstream_id"
-
-
-    # # version check
-    # - name : check version
-    #   shell : bash
+    # - name : remote
     #   run : |
-    #       if [ $main_id = $upstream_id ]; then
-    #         echo "state = true" >> $GITHUB_ENV
-    #         echo "alread up-to-date"
+    #         git remote add upstream https://github.com/Azure/azure-sdk-korean.git
+    #         git remote -v
 
-    #       else 
-    #         echo "state = false" >> $GITHUB_ENV
-    #         echo "need to update"
-    #       fi
+
+    - name: Dump GitHub context
+      env:
+         GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
 
 
     # diff
     - name : git diff
-      # if : ${{env.state == 'false'}}
+      with : 
+        fetch-depth: 0 # fetch all history
       run : |
-            git diff --stat $main_id $upstream_id
+            git diff ${{ github.event.before }}..${{ github.event.after }}
             python3 hello.py
