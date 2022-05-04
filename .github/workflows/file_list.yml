@@ -1,5 +1,5 @@
 name: Multi Tenant GAE Deploy
-
+# 파일 이름 긁어오기
 on:
   push:
   workflow_dispatch:
@@ -16,7 +16,7 @@ jobs:
       uses: the-coding-turtle/ga-file-list@v0.1
       with:
         directory: "."
-        file_extension: "."
+        file_extension: "txt"
 
   multi_tenant:
     needs: lookup
