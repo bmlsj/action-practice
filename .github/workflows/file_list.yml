@@ -11,12 +11,12 @@ jobs:
       matrix: ${{ steps.filelist.outputs.file_names }}
     steps:
     - uses: actions/checkout@v2
-    - name: Get all yaml files
+    - name: Get all files
       id: filelist
       uses: the-coding-turtle/ga-file-list@v0.1
       with:
         directory: "."
-        file_extension: "py"
+        file_extension: "."
 
   multi_tenant:
     needs: lookup
