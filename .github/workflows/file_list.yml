@@ -29,6 +29,6 @@ jobs:
     - name: Show all tenants
       run: |
         touch file_list.txt
-        echo "this is tenant: ${{ matrix.TENANT }}" >> .file_list.txt
-        cat 
+        echo "${{ matrix.TENANT }}" >> .file_list
+        cat file_list.txt
 
