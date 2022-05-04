@@ -44,7 +44,11 @@ jobs:
         upstream_branch: main
         target_branch: .
 
+    - name : no new commits
+      if: ${{ steps.sync.outputs.has_new_commits != 'true' }}
+      run: echo "do not have new commits"
 
+      
     - name: have new commits
       if: ${{ steps.sync.outputs.has_new_commits == 'true' }}
       uses: ivanmilov/telegram_notify_action@v1
@@ -53,10 +57,4 @@ jobs:
         chat_id: ${{secrets.TELEGRAM_CHAT_ID}}
         message: "New commit in upstream repo ${{github.repository}}"
       
-    - name : no new commits
-      if: ${{ steps.sync.outputs.has_new_commits != 'true' }}
-      run: echo "do not have new commits"
 
-      # git diff    
-    - name : git diff
-      run: git diff COMMIT_ID UPSTREAM_COMMIT_ID
