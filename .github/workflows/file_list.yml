@@ -24,6 +24,8 @@ jobs:
   multi_tenant:
     needs: lookup
     runs-on: ubuntu-latest
+    outputs:
+      filename : ${{steps.list.outputs.file_name}}
     strategy:
       matrix:
         tenant: ${{fromJson(needs.lookup.outputs.matrix)}}
@@ -46,7 +48,7 @@ jobs:
       
       # file 이름 출력
       - name : output tenants
-        run : echo ${{ steps.list.outputs.file_name}}
+        run : echo ${{ steps.list.outputs.filename}}
 
       # push
       - name : push file
