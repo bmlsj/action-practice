@@ -43,9 +43,9 @@ jobs:
 
 
     # diff
-    - name : git diff
-      with : 
-        fetch-depth: 0 # fetch all history
-      run : |
-            git diff ${{ github.event.before }}..${{ github.event.after }}
-            python3 hello.py
+    # - name : git diff
+    #   with : 
+    #     fetch-depth: 0 # fetch all history
+    #   run : |
+    #         git diff ${{ github.event.before }}..${{ github.event.after }}
+    #         python3 hello.py
