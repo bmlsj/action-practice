@@ -44,6 +44,10 @@ jobs:
     - name : fetch
       run : git fetch upstream
 
+    - name : checkout
+      run : git checkout upstream/main
+
+      
       # log 확인
     - name : git log
       run : git log
@@ -55,4 +59,4 @@ jobs:
 
       # git diff    
     - name : git diff
-      run: git diff $COMMIT_ID $UPSTREAM_COMMIT_ID
+      run: git diff "$COMMIT_ID" "$UPSTREAM_COMMIT_ID"
