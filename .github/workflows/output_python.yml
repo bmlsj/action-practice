@@ -34,7 +34,7 @@ jobs:
         id : rate
         run : |
               python3 hello.py
-              echo ::set-output name=change_rate::$(cat python3 hello.py)
+              echo ::set-output name=change_rate::$(python3 hello.py)
 
       - name : output rate 
         run : echo ${{steps.rate.outputs.change_rate}}
