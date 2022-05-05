@@ -34,7 +34,7 @@ jobs:
         id : rate
         run : |
               touch compare.txt
-              python3 compare.py > compare.txt
+              python3 hello.py > compare.txt
               echo ::set-output name=change_rate::$(cat compare.txt)
 
       - name : output rate
