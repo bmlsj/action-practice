@@ -33,8 +33,9 @@ jobs:
       - name: rate of changes
         id : rate
         run : |
-              python3 hello.py >> $GITHUB_ENV
+              echo hello.py
+              cat hello.py >> $GITHUB_ENV
               echo ::set-output name=change_rate::$GITHUB_ENV
 
-      - name : output rate
+      - name : output rate 
         run : echo ${{steps.rate.outputs.change_rate}}
