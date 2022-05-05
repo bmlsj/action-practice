@@ -36,6 +36,7 @@ jobs:
         echo "${{ matrix.TENANT }}" > file_list.txt
         echo ::set-output name=file_name::$(cat file_list.txt)
 
+
      # file 이름 출력
     - name : output tenants
       run : echo ${{steps.list.outputs.file_name}}

@@ -17,26 +17,18 @@ on:
       
 
 jobs:
-  build:
-    name : check upstream
+  check_version:
+    name : check version
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-      
 
-      # set up python
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-
-
-      # log 확인
+    # log 확인
     - name : git log
       run : git log
 
-
+    # fetch upstream
     - name: Fetch upstream changes
       id: sync
       uses: ivanmilov/upstream_check_new_commits@v1
@@ -59,4 +51,50 @@ jobs:
         chat_id: ${{secrets.TELEGRAM_CHAT_ID}}
         message: "New commit in upstream repo ${{github.repository}}"
       
+
+  compare_string:
+    name : check version
+    runs-on: ubuntu-latest
+
+    steps:          
+      - uses: actions/checkout@v2
+
+      # set up python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 파일 저장 아니고 환경 변수에 저장하기
+      - name: rate of changes
+        id : rate
+        run : |
+              touch compare.txt
+              python3 compare.py > compare.txt
+              echo ::set-output name=change_rate::$(cat compare.txt)
+
+      - name : output rate
+        run : echo ${{steps.rate.outputs.}}
+
+
+  upload_webside:
+    name : check version
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name : upload
+        run : |
+              touch pages/rate_change.md
+              echo "파일 이름 리스트 + 파일 변화율" > $(cat pages/rate_change.md)
+      
+      - name : git push
+        run : |
+              git config -> login
+              git add pages/rate_change.md
+              git commit -m "update"
+              git push
+              
+
 
