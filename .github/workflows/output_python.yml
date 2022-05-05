@@ -1,0 +1,41 @@
+name: output to python
+
+on:
+
+#   schedule:
+#     - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
+
+  push:
+#  repository_dispatch:
+#    types: [check_upstream]
+  #   paths:
+  #     - "파일 경로"
+
+  workflow_dispatch:
+
+
+jobs:  
+  compare_string:
+    name : check version
+    runs-on: ubuntu-latest
+
+    steps:          
+      - uses: actions/checkout@v2
+
+      # set up python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+
+      # 파일 저장 아니고 환경 변수에 저장하기
+      - name: rate of changes
+        id : rate
+        run : |
+              touch compare.txt
+              python3 compare.py > compare.txt
+              echo ::set-output name=change_rate::$(cat compare.txt)
+
+      - name : output rate
+        run : echo ${{steps.rate.outputs.change_rate}}
