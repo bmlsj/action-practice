@@ -29,7 +29,7 @@ jobs:
       # 이전 id
       - name : before id
         id : vars
-        run : echo ::set-output name=before_id::$(git rev-parse main^)
+        run : echo ::set-output name=before_id::$(git rev-parse refs/remotes/origin/main^)
       
       # id 출력
       - name : output 
