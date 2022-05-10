@@ -29,7 +29,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
 
-      # 파일 저장 아니고 환경 변수에 저장하기
+      # 환경 변수에 저장하기
       - name: rate of changes
         id : rate
         run : |

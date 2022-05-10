@@ -1,40 +1,40 @@
-## https://github.com/ivanmilov/upstream_check_new_commits
 
-name: Compare
+
+name: check Version
 
 on:
 
-#   schedule:
-#     - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
+  # schedule:
+  #  - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
 
-#  push:
-#  repository_dispatch:
-#    types: [check_upstream]
-  #   paths:
-  #     - "파일 경로"
+  push:
+  repository_dispatch:
+    types: [check_upstream]
+
+    # paths:
+    #     - "docs/**"
 
   workflow_dispatch:
       
 
 jobs:
+  # 버전 체크
   check_version:
-    name : check version
+    name : check upstream
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
-    # log 확인
+    # git log 확인
     - name : git log
       run : git log
 
-    # fetch upstream
+    # git fetch upstream
     - name: Fetch upstream changes
       id: sync
       uses: ivanmilov/upstream_check_new_commits@v1
       with:
-        upstream_repository: Azure/azure-sdk-korean
-        upstream_branch: main
         target_branch: .
 
 
@@ -52,8 +52,10 @@ jobs:
         message: "New commit in upstream repo ${{github.repository}}"
       
 
+
+  # 문자열 비교 알고리즘
   compare_string:
-    name : check version
+    name : compare
     runs-on: ubuntu-latest
 
     steps:          
@@ -65,20 +67,65 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      # 파일 저장 아니고 환경 변수에 저장하기
+      # 환경 변수에 저장하기
       - name: rate of changes
         id : rate
         run : |
-              touch compare.txt
-              python3 compare.py > compare.txt
-              echo ::set-output name=change_rate::$(cat compare.txt)
+              python3 hello.py
+              echo ::set-output name=change_rate::$(python3 hello.py)
 
-      - name : output rate
-        run : echo ${{steps.rate.outputs.}}
+      - name : output rate 
+        run : echo ${{steps.rate.outputs.change_rate}}
 
 
+          
+  lookup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filelist.outputs.file_names }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get all files
+      id: filelist
+      uses: the-coding-turtle/ga-file-list@v0.1
+      with:
+        upstream_repository: devrel-kr/I18N-For-Beginners
+        upstream_branch: main
+        directory: "."
+        # file_extension: "txt"     # 확장자
+
+
+  multi_tenant:
+    needs: lookup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tenant: ${{fromJson(needs.lookup.outputs.matrix)}}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # set up python
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+ 
+    - name: Show all tenants    # 파일 이름 받아오기, 환경변수로
+      id : list
+      run: |
+        echo ::set-output name=file_name::${{ matrix.TENANT }}
+
+
+     # file 이름 출력
+    - name : output tenants
+      run : echo ${{steps.list.outputs.file_name}}
+
+
+  # 웹 페이지에 업로드
   upload_webside:
-    name : check version
+    name : upload
+    needs: [multi_tenant, compare_string]
     runs-on: ubuntu-latest
 
     steps:
@@ -86,15 +133,19 @@ jobs:
 
       - name : upload
         run : |
-              touch pages/rate_change.md
-              echo "파일 이름 리스트 + 파일 변화율" > $(cat pages/rate_change.md)
-      
-      - name : git push
+              touch posts/rate_change.md
+              echo "${{needs.multi_tenant.outputs.file_name}}   ${{needs.compare_string.rate.outputs.change_rate}}" > _posts/rate_change.md
+   
+      # commit
+      - name : push file
         run : |
-              git config -> login
-              git add pages/rate_change.md
-              git commit -m "update"
-              git push
-              
+            git config --global user.email "user.email"
+            git config --global user.name "user.name"
+            git add posts/rate_change.md
+            git commit -m "posts/rate_change.md"
+            git push
 
+
+  
+      
 
