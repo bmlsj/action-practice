@@ -69,5 +69,5 @@ def main(b1, b2):
 
 
 if __name__ == '__main__':
-	main(sys.argv[1], sys.argv[2])
-	# main('78a294212bf996d044053a7088678e5b4646e431', '0adce7215a7f2eb67a24fbe3865889c957fa6d4d')
+	# main(sys.argv[1], sys.argv[2])
+	main('f40ad3bb079816d1dbe27fc61b4ec9e587ce2459', '76ae4094079bccba78d42cb7233af628f889ca6f')
