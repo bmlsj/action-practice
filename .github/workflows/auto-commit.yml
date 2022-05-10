@@ -24,12 +24,12 @@ jobs:
 
       - name : main id
         id : main
-        run : echo ::set-output name=main_id::$(git rev-parse refs/remotes/HEAD)
+        run : echo ::set-output name=main_id::$(git rev-parse main)
 
       # 이전 id
       - name : before id
         id : vars
-        run : echo ::set-output name=before_id::$(git rev-parse refs/remotes/HEAD^)
+        run : echo ::set-output name=before_id::$(git rev-parse main^)
       
       # id 출력
       - name : output 
