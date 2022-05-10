@@ -25,7 +25,7 @@ jobs:
 
       - name: remote upstream
         run : |
-             git remote add upstream https://github.com/devrel-kr/I18N-For-Beginners.git
+             git remote add upstream https://github.com/Azure/azure-sdk-korean.git
              git remote -v
             
       # checkout
