@@ -1,0 +1,12 @@
+~ File: diff.py
+
+	File Modified
+
+	Added words: 1, Deleted words: 1
+
+~ File: file_list.txt
+
+	File Modified
+
+	Added words: 1, Deleted words: 0
+
