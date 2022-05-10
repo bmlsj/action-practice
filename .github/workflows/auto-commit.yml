@@ -20,23 +20,38 @@ jobs:
         uses: actions/setup-python@v2
         with:
          python-version: ${{ matrix.python-version }}
+    
+       # remote
 
+      - name: remote upstream
+        run : |
+             git remote add upstream https://github.com/devrel-kr/I18N-For-Beginners.git
+             git remote -v
+            
+      # checkout
+      - name : git checkout
+        run : git checkout -b upstream/main
+                      
+      # fetch
+      - name : fetch upstream
+        run : git fetch upstream
 
+              
+          # 최신 id               
       - name : main id
         id : main
-        run : echo ::set-output name=main_id::$(git rev-parse main)
+        run : echo ::set-output name=main_id::$(git rev-parse refs/remotes/upstream/main)
 
       # 이전 id
       - name : before id
         id : vars
-        run : echo ::set-output name=before_id::$(git rev-parse main^)
+        run : echo ::set-output name=before_id::$(git rev-parse refs/remotes/upstream/main^)
       
       # id 출력
       - name : output 
         run : |
               echo ${{steps.main.outputs.main_id}}
               echo ${{steps.vars.outputs.before_id}}
-
       # git diff
       - name: Run diff.py
         run: python diff.py ${{steps.vars.outputs.before_id}} ${{steps.main.outputs.main_id}}
