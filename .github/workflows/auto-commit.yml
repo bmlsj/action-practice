@@ -23,31 +23,18 @@ jobs:
         with:
          python-version: ${{ matrix.python-version }}
     
-       # remote
 
-      - name: remote upstream
-        run : |
-             git remote add upstream https://github.com/bmlsj/action-practice.git
-             git remote -v
-            
-      # checkout
-      - name : git checkout
-        run : git checkout -b upstream/main
-                      
-      # fetch
-      - name : fetch upstream
-        run : git fetch upstream
 
               
           # 최신 id               
       - name : main id
         id : main
-        run : echo ::set-output name=main_id::$(git rev-parse refs/remotes/upstream/main)
+        run : echo ::set-output name=main_id::$(git rev-parse refs/heads/main)
 
       # 이전 id
       - name : before id
         id : vars
-        run : echo ::set-output name=before_id::$(git rev-parse refs/remotes/upstream/main^)
+        run : echo ::set-output name=before_id::$(git rev-parse refs/heads/main^)
       
       # id 출력
       - name : output 
