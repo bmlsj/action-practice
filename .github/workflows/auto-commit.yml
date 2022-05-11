@@ -1,13 +1,15 @@
-# This is a basic workflow to help you get started with Actions
+name: diff
 
-name: auto-commit
-
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
     
-  workflow_dispatch:
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+ 
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,18 +23,36 @@ jobs:
         with:
          python-version: ${{ matrix.python-version }}
     
+       # remote
 
+      - name: remote upstream
+        run : |
+             git remote add upstream https://github.com/Azure/azure-sdk-korean.git
+             git remote -v
+            
+      # checkout
+      - name : git checkout
+        uses: actions/checkout@v3
+        with:
+          repository: Azure/azure-sdk-korean
+          path: 'docs/android/*.md'
+      # run : git checkout -b upstream/main
+
+                      
+      # fetch
+      - name : fetch upstream
+        run : git fetch upstream
 
               
           # 최신 id               
       - name : main id
         id : main
-        run : echo ::set-output name=main_id::$(git rev-parse refs/heads/main)
+        run : echo ::set-output name=main_id::$(git rev-parse refs/remotes/upstream/main)
 
       # 이전 id
       - name : before id
         id : vars
-        run : echo ::set-output name=before_id::$(git rev-parse refs/heads/main^)
+        run : echo ::set-output name=before_id::$(git rev-parse refs/remotes/upstream/main^)
       
       # id 출력
       - name : output 
@@ -42,7 +62,7 @@ jobs:
       # git diff
       - name: Run diff.py
         run: python diff.py ${{steps.vars.outputs.before_id}} ${{steps.main.outputs.main_id}}
-      
+
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
