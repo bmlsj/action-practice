@@ -5,9 +5,7 @@ name: auto-commit
 on:
   push:
     branches: [ main ]
-    paths:
-      - "file_list.txt"
-
+    
   workflow_dispatch:
 
 jobs:
