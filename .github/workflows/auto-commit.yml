@@ -1,3 +1,5 @@
+# This is a basic workflow to help you get started with Actions
+
 name: diff
 
 # Controls when the workflow will run
@@ -5,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-
+    
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,7 +21,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
-    
+      
       - name: Set up Python
         uses: actions/setup-python@v3.1.2
         
@@ -46,7 +48,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         
       - name: copy python script
-        run : cp diff.py ${{env.working-directory}}
+        run : cp diff.py ${{ env.working-directory }}
         
       - name: run python script
         run : python diff.py main upstream/main
@@ -55,8 +57,8 @@ jobs:
       - name: copy result
         run : cp report_tree.md ../
         working-directory: ${{ env.working-directory }}
-        
-     
+               
+ 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
@@ -64,4 +66,4 @@ jobs:
             author_email: gaga2353@gmail.com
             message: 'add result'
             add: 'report_tree.md'
-            push: origin origin/result
+            push: origin result
