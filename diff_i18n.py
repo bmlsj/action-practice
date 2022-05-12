@@ -99,7 +99,7 @@ def main(b1, b2):
 			else:
 				result += f'\t{diff["state"]}\n\n'
 
-			result += f"\tAdded words: {diff['diff'][0]}, Deleted words: {diff['diff'][1]}\n"
+			result += f"\tAdded words: {diff['diff'][0]}, Deleted words: {diff['diff'][1]}\n\n"
 			
 	with open("result.txt", "w") as f:
 		f.write(result)
