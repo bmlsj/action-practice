@@ -18,37 +18,28 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-         python-version: ${{ matrix.python-version }}
+      - name: Set up Python
+        uses: actions/setup-python@v3.1.2
     
-      - name: remote upstream
-        run : |
-             git remote add devrel https://github.com/devrel-kr/Web-Dev-For-Beginners.git
-             git remote add micro https://github.com/microsoft/Web-Dev-For-Beginners.git
+      - name: checkout to result branch
+        run : git checkout -b result
+         
+      - name: cloning repository
+        run : git clone https://github.com/devrel-kr/Web-Dev-For-Beginners.git
+          
+      - name: add upstream
+        run : git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
 
-      # checkout
-      - name : git checkout
-        run : git checkout -b devrel
-                      
-      # fetch
-      - name : fetch devrel
-        run : git fetch devrel
+      
+      - name: fetch upstream
+        run : git fetch upstream
 
-
-      # checkout
-      - name : git checkout
-        run : git checkout -b micro
-                      
-      # fetch
-      - name : fetch micro
-        run : git fetch micro
-
+      - name: checkout to upstream
+        run : git checkout upstream/main
 
       # git diff
       - name: Run diff.py
-        run: python diff.py devrel micro
+        run: python diff.py main upstream/main
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
@@ -57,4 +48,4 @@ jobs:
             author_email: gaga2353@gmail.com
             message: 'Your commit message'
             add: 'report_tree.md'
-            push: 'origin'
+            push: origin micro
