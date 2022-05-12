@@ -57,7 +57,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         
       - name : copy
-        run : cp result_tree.txt index.md
+        run : cp ../result_tree.txt ../index.md
 
       - name: Commit changes
 
