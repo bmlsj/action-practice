@@ -108,7 +108,7 @@ def main(b1, b2):
 	with open("json.txt", "w") as f:
 		f.write(json.dumps(tree))
 
-	result_tree = open('report_tree.md', 'w')
+	result_tree = open('report_tree.txt', 'w')
 	ptr(tree, result_tree)
 	result_tree.close()
 
