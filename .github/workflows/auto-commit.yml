@@ -13,6 +13,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./Web-Dev-For-Beginners
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -44,7 +46,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         
       - name: copy python script
-        run : cp diff.py $env.working-directory
+        run : cp diff.py ${{env.working-directory}}
         
       - name: run python script
         run : python diff.py main upstream/main
