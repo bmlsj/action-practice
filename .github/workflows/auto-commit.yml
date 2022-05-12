@@ -66,7 +66,7 @@ jobs:
       # git diff
       - name: Run diff.py
 
-        run: python diff.py ${{steps.vars.outputs.devrel_id}} ${{steps.main.outputs.micro_id}}
+        run: python diff.py ${{steps.main.outputs.devrel_id}} ${{steps.vars.outputs.micro_id}}
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
