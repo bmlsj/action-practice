@@ -1,13 +1,18 @@
-# This is a basic workflow to help you get started with Actions
+name: diff
 
-name: auto-commit
-
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+ 
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,13 +30,26 @@ jobs:
 
       - name: remote upstream
         run : |
+<<<<<<< HEAD
              git remote add devrel https://github.com/devrel-kr/Web-Dev-For-Beginners.git
              git remote add micro https://github.com/microsoft/Web-Dev-For-Beginners.git
+=======
+             git remote add upstream https://github.com/Azure/azure-sdk-korean.git
+>>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
              git remote -v
             
       # checkout
       - name : git checkout
+<<<<<<< HEAD
         run : git checkout -b devrel
+=======
+        uses: actions/checkout@v3
+        with:
+          repository: Azure/azure-sdk-korean
+          path: 'docs/android/*.md'
+      # run : git checkout -b upstream/main
+
+>>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
                       
       # fetch
       - name : fetch devrel
@@ -64,8 +82,13 @@ jobs:
 
       # git diff
       - name: Run diff.py
+<<<<<<< HEAD
         run: python diff.py ${{steps.vars.outputs.devrel_id}} ${{steps.main.outputs.micro_id}}
       
+=======
+        run: python diff.py ${{steps.vars.outputs.before_id}} ${{steps.main.outputs.main_id}}
+
+>>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
@@ -73,5 +96,10 @@ jobs:
             author_name: bmlsj
             author_email: gaga2353@gmail.com
             message: 'Your commit message'
+<<<<<<< HEAD
             add: 'result.txt'
             push: '--set-upstream origin origin/upstream/main'
+=======
+            add: 'contact/index.md'
+            push: '--set-upstream origin origin/upstream/main'
+>>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
