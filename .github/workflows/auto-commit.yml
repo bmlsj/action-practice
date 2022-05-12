@@ -53,10 +53,12 @@ jobs:
         working-directory: ${{ env.working-directory }}
         
       - name: copy result
-        run : cp index.md ../
+        run : cp report_tree.txt ../
         working-directory: ${{ env.working-directory }}
         
-     
+      - name : copy
+        run : cp result_tree.txt index.md
+
       - name: Commit changes
 
         uses: EndBug/add-and-commit@v9
@@ -64,5 +66,5 @@ jobs:
             author_name: bmlsj
             author_email: gaga2353@gmail.com
             message: 'add result'
-            add: 'index.md'
+            add: 'report_tree.txt'
             push: origin result
