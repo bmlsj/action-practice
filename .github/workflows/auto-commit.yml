@@ -53,7 +53,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         
       - name: copy result
-        run : cp index.md ../
+        run : cp report_tree.md ../
         working-directory: ${{ env.working-directory }}
 
       - name: Commit changes
@@ -61,6 +61,6 @@ jobs:
         with:
             author_name: bmlsj
             author_email: gaga2353@gmail.com
-            message: 'add result'
-            add: 'index.md'
+            message: 'add report_tree.md'
+            add: 'report_tree.md'
             push: origin origin/result
