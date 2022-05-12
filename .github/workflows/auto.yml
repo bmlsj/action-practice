@@ -1,3 +1,5 @@
+# This is a basic workflow to help you get started with Actions
+
 name: diff
 
 # Controls when the workflow will run
@@ -13,14 +15,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./Web-Dev-For-Beginners
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Set up Python
         uses: actions/setup-python@v3.1.2
-    
+        
       - name: checkout to result branch
         run : git checkout -b result
          
@@ -29,23 +33,43 @@ jobs:
           
       - name: add upstream
         run : git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
-
+        working-directory: ${{ env.working-directory }}
       
+      - name: check repository
+        run : git remote -v
+        working-directory: ${{ env.working-directory }}
+
       - name: fetch upstream
         run : git fetch upstream
-
+        working-directory: ${{ env.working-directory }}
+        
       - name: checkout to upstream
         run : git checkout upstream/main
-
-      # git diff
-      - name: Run diff.py
-        run: python diff.py main upstream/main
-
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-            author_name: bmlsj
-            author_email: gaga2353@gmail.com
-            message: 'Your commit message'
-            add: 'report_tree.md'
-            push: origin micro
+        working-directory: ${{ env.working-directory }}
+        
+      - name: copy python script
+        run : cp diff_i18n.py ${{ env.working-directory }}
+        
+      - name: run python script
+        run : python diff_i18n.py main upstream/main
+        working-directory: ${{ env.working-directory }}
+      
+      - name: make report dir
+        run : mkdir report
+        
+      - name: copy result
+        run : mkdir report && cp report_tree.txt ../report
+        working-directory: ${{ env.working-directory }}
+        
+      - name: Set config
+        run : |
+          git config --global user.email "${{ secrets.COMMIT_EMAIL }}"
+          git config --global user.name "${{ secrets.COMMIT_NAME }}"
+        
+      - name: push to github
+        run : |
+          git add report/*.txt
+          git commit -m "Add report"
+          
+      - name: Push to report
+        run: git push origin `git subtree split --prefix report master`:report
