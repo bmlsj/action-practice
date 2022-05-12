@@ -23,57 +23,49 @@ jobs:
         with:
          python-version: ${{ matrix.python-version }}
     
-       # remote
-
-      - name: remote upstream
-        run : |
-             git remote add devrel https://github.com/devrel-kr/Web-Dev-For-Beginners.git
-             git remote add micro https://github.com/microsoft/Web-Dev-For-Beginners.git
-
-      # checkout
-      - name : git checkout
-        run : git checkout -b devrel
-                      
-      # fetch
-      - name : fetch devrel
-        run : git fetch devrel
-
-              
-        # devrel id               
-      - name : devrel id
-        id : main
-        run : echo ::set-output name=devrel_id::$(git rev-parse refs/remotes/devrel/main)
-
-      # checkout
-      - name : git checkout
-        run : git checkout -b micro
-                      
-      # fetch
-      - name : fetch micro
-        run : git fetch micro
-
-      # 이전 id
-      - name : micro id
-        id : vars
-        run : echo ::set-output name=micro_id::$(git rev-parse refs/remotes/micro/main)
+      - name: Set up Python
+        uses: actions/setup-python@v3.1.2
+        
+      - name: checkout to result branch
+        run : git checkout -b result
+         
+      - name: cloning repository
+        run : git clone https://github.com/devrel-kr/Web-Dev-For-Beginners.git
+          
+      - name: add upstream
+        run : git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
+        working-directory: ${{ env.working-directory }}
       
-      # id 출력
-      - name : output 
+      - name: check repository
+        run : git remote -v
+        working-directory: ${{ env.working-directory }}
+
+      - name: fetch upstream
+        run : git fetch upstream
+        working-directory: ${{ env.working-directory }}
+        
+      - name: checkout to upstream
+        run : git checkout upstream/main
+        working-directory: ${{ env.working-directory }}
+        
+      - name: copy python script
+        run : cp diff_i18n.py ${{ env.working-directory }}
+        
+      - name: run python script
+        run : python diff_i18n.py main upstream/main
+        working-directory: ${{ env.working-directory }}
+        
+      - name: copy result
+        run : cp report_tree.txt ../
+        working-directory: ${{ env.working-directory }}
+        
+      - name: Set config
         run : |
-              echo ${{steps.main.outputs.devrel_id}}
-              echo ${{steps.vars.outputs.micro_id}}
-
-      # git diff
-      - name: Run diff.py
-
-        run: python diff.py ${{steps.main.outputs.devrel_id}} ${{steps.vars.outputs.micro_id}}
-
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-            author_name: bmlsj
-            author_email: gaga2353@gmail.com
-            message: 'Your commit message'
-            add: 'result.txt'
-            push: '--set-upstream origin origin/upstream/main'
-
+          git config —global user.email "${{ secrets.COMMIT_EMAIL }}"
+          git config —global user.name "${{ secrets.COMMIT_NAME }}"
+        
+      - name: push to github
+        run : |
+          git add report_tree.txt
+          git commit -m "Add report"
+          git push origin result
