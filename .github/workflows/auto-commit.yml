@@ -44,7 +44,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         
       - name: copy python script
-        run : cp diff.py ${{ env.working-directory }}
+        run : cp diff.py $env.working-directory
         
       - name: run python script
         run : python diff.py main upstream/main
