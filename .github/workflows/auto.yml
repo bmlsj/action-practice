@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: diff
+name: diff2
 
 # Controls when the workflow will run
 on:
@@ -58,7 +58,7 @@ jobs:
         run : mkdir report
         
       - name: copy result
-        run : mkdir report && cp report_tree.txt ../report
+        run : mkdir report && cp report_tree.md ../report
         working-directory: ${{ env.working-directory }}
         
       - name: Set config
@@ -68,7 +68,7 @@ jobs:
         
       - name: push to github
         run : |
-          git add report/*.txt
+          git add report/*.md
           git commit -m "Add report"
           
       - name: Push to report
