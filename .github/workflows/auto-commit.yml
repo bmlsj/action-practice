@@ -82,13 +82,8 @@ jobs:
 
       # git diff
       - name: Run diff.py
-<<<<<<< HEAD
-        run: python diff.py ${{steps.vars.outputs.devrel_id}} ${{steps.main.outputs.micro_id}}
-      
-=======
-        run: python diff.py ${{steps.vars.outputs.before_id}} ${{steps.main.outputs.main_id}}
 
->>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
+        run: python diff.py ${{steps.vars.outputs.devrel_id}} ${{steps.main.outputs.micro_id}}
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
@@ -96,10 +91,6 @@ jobs:
             author_name: bmlsj
             author_email: gaga2353@gmail.com
             message: 'Your commit message'
-<<<<<<< HEAD
             add: 'result.txt'
             push: '--set-upstream origin origin/upstream/main'
-=======
-            add: 'contact/index.md'
-            push: '--set-upstream origin origin/upstream/main'
->>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
+
