@@ -30,26 +30,12 @@ jobs:
 
       - name: remote upstream
         run : |
-<<<<<<< HEAD
              git remote add devrel https://github.com/devrel-kr/Web-Dev-For-Beginners.git
              git remote add micro https://github.com/microsoft/Web-Dev-For-Beginners.git
-=======
-             git remote add upstream https://github.com/Azure/azure-sdk-korean.git
->>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
-             git remote -v
-            
+
       # checkout
       - name : git checkout
-<<<<<<< HEAD
         run : git checkout -b devrel
-=======
-        uses: actions/checkout@v3
-        with:
-          repository: Azure/azure-sdk-korean
-          path: 'docs/android/*.md'
-      # run : git checkout -b upstream/main
-
->>>>>>> 10954e6dffbb83cfd07da9729779d6db66cb0a59
                       
       # fetch
       - name : fetch devrel
