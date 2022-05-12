@@ -5,8 +5,6 @@ name: auto-commit
 on:
   push:
     branches: [ main ]
-    paths:
-      - "file_list.txt"
 
   workflow_dispatch:
 
@@ -27,36 +25,46 @@ jobs:
 
       - name: remote upstream
         run : |
-             git remote add upstream https://github.com/bmlsj/action-practice.git
+             git remote add devrel https://github.com/devrel-kr/Web-Dev-For-Beginners.git
+             git remote add micro https://github.com/microsoft/Web-Dev-For-Beginners.git
              git remote -v
             
       # checkout
       - name : git checkout
-        run : git checkout -b upstream/main
+        run : git checkout -b devrel
                       
       # fetch
-      - name : fetch upstream
-        run : git fetch upstream
+      - name : fetch devrel
+        run : git fetch devrel
 
               
-          # 최신 id               
-      - name : main id
+        # devrel id               
+      - name : devrel id
         id : main
-        run : echo ::set-output name=main_id::$(git rev-parse refs/remotes/upstream/main)
+        run : echo ::set-output name=devrel_id::$(git rev-parse refs/remotes/devrel/main)
+
+      # checkout
+      - name : git checkout
+        run : git checkout -b micro
+                      
+      # fetch
+      - name : fetch micro
+        run : git fetch micro
 
       # 이전 id
-      - name : before id
+      - name : micro id
         id : vars
-        run : echo ::set-output name=before_id::$(git rev-parse refs/remotes/upstream/main^)
+        run : echo ::set-output name=micro_id::$(git rev-parse refs/remotes/micro/main)
       
       # id 출력
       - name : output 
         run : |
-              echo ${{steps.main.outputs.main_id}}
-              echo ${{steps.vars.outputs.before_id}}
+              echo ${{steps.main.outputs.devrel_id}}
+              echo ${{steps.vars.outputs.micro_id}}
+
       # git diff
       - name: Run diff.py
-        run: python diff.py ${{steps.vars.outputs.before_id}} ${{steps.main.outputs.main_id}}
+        run: python diff.py ${{steps.vars.outputs.devrel_id}} ${{steps.main.outputs.micro_id}}
       
 
       - name: Commit changes
@@ -65,5 +73,5 @@ jobs:
             author_name: bmlsj
             author_email: gaga2353@gmail.com
             message: 'Your commit message'
-            add: 'contact/index.md'
+            add: 'result.txt'
             push: '--set-upstream origin origin/upstream/main'
