@@ -70,12 +70,12 @@ def get_diff(commit1, commit2, file_name):
 def ptr(t, file, depth = 0):
 	for k, v in t.items():
 		if k != '/data/':
-			file.write("%s %2d %s\n" % ("".join(depth * ["    "]), depth, k))
+			file.write("%s %2d %s\n\n" % ("".join(depth * ["    "]), depth, k))
 			depth += 1
 			ptr(t[k], file, depth)
 			depth -= 1
 		else:
-			file.write("%s -- %s\n" % ("".join(depth * ["    "]), v))
+			file.write("%s -- %s\n\n" % ("".join(depth * ["    "]), v))
 
 def main(b1, b2):
 	files = get_files(b1, b2)
