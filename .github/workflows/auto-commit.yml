@@ -56,13 +56,13 @@ jobs:
         run : cp report_tree.txt ../
         working-directory: ${{ env.working-directory }}
         
-      - name: Set config
-        run : |
-          git config --global user.email "${{ secrets.COMMIT_EMAIL }}"
-          git config --global user.name "${{ secrets.COMMIT_NAME }}"
-        
-      - name: push to github
-        run : |
-          git add report_tree.txt
-          git commit -m "Add report"
-          git push origin result
+     
+      - name: Commit changes
+
+        uses: EndBug/add-and-commit@v9
+        with:
+            author_name: bmlsj
+            author_email: gaga2353@gmail.com
+            message: 'add result'
+            add: 'report_tree.txt'
+            push: origin result
