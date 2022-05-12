@@ -63,4 +63,4 @@ jobs:
             author_email: gaga2353@gmail.com
             message: 'add report_tree.md'
             add: 'report_tree.txt'
-            push: origin origin/result
+            push: origin result

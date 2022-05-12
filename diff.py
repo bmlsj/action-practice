@@ -115,4 +115,3 @@ def main(b1, b2):
 
 if __name__ == '__main__':
 	main(sys.argv[1], sys.argv[2])
-	# main('2c23a2339909b4149159796ccf6691658cbc5486', '0d895b484c58f657c66c3dd8deaa2fb62f9155ed')
