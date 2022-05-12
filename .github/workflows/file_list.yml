@@ -1,9 +1,9 @@
 name: Multi Tenant GAE Deploy
 # 파일 이름 긁어오기
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 jobs:

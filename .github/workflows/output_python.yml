@@ -5,7 +5,7 @@ on:
 #   schedule:
 #     - cron : '0 0 * * 1'    # 매주 월요일 0시 0분에 실행
 
-  push:
+  # push:
 #  repository_dispatch:
 #    types: [check_upstream]
   #   paths:
